@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import GalleryItem from "../GalleryItem/GalleryItem";
 import "./Gallery.css"
 
@@ -174,13 +173,6 @@ const Gallery = () => {
             <GalleryItem key={item.id} item={item} />
         ))}
     </div>
-=======
-import "./Gallery.css"
-
-const Gallery = () => {
-  return (
-    <div>Gallery</div>
->>>>>>> 379a9f1727dcd0d1bd3c1a72558e66f328722080
   )
 }
 
