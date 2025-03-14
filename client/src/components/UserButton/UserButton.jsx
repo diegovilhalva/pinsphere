@@ -2,11 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import "./UserButton.css";
 
 const UserButton = () => {
-    const currentUser = false;
+    const currentUser = true;
     const [open, setOpen] = useState(false);
     const ref = useRef();
 
-    // Fechar ao clicar fora
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
