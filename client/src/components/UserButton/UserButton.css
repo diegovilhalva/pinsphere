@@ -1,0 +1,130 @@
+.user-button-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 24px;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: transparent;
+    border: 1px solid transparent;
+}
+
+.user-button.active {
+    background-color: #efefef;
+}
+
+.user-button:hover {
+    background-color: #f5f5f5;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.arrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.arrow.rotate {
+    transform: rotate(180deg);
+}
+
+.user-options {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 200px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+    z-index: 1000;
+    animation: slideDown 0.2s ease-out;
+}
+
+
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+.user-option {
+    padding: 12px 24px;
+    color: #5f5f5f;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-option:hover {
+    background: #f7f7f7;
+    color: #111;
+}
+
+.user-option:last-child {
+    color: #e60023;
+    font-weight: 600;
+}
+
+.user-option:last-child:hover {
+    background: #ffe5e8;
+}
+
+
+.user-options::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent white transparent;
+}
+
+
+
+.login-link {
+    font-size: 16px;
+    padding: 12px 16px;
+    border-radius: 24px;
+    background: #f1f1f1;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.2s ease-in-out;
+    font-weight: 600;
+    background: #e60023;
+    color: white;
+}
+
+.login-link:hover {
+    background: #ad081b;
+}
+
+@media (max-width: 640px) {
+    .user-options {
+        display: none; 
+    }
+    .login-link {
+        display: none;
+    }
+    
+    .user-button {
+        display: none; 
+    }
+}
