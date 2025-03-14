@@ -6,6 +6,7 @@
 }
 
 
+
 @media (max-width:1746px){
     .gallery {
         grid-template-columns: repeat(6,1fr);
