@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./UserButton.css";
+import Image from "../Image/Image";
 
 const UserButton = () => {
     const currentUser = true;
@@ -28,9 +29,9 @@ const UserButton = () => {
                 className={`user-button ${open ? 'active' : ''}`} 
                 onClick={handleToggle}
             >
-                <img src="/general/noAvatar.png" alt="User Avatar" className="avatar" />
-                <img 
-                    src="/general/arrow.svg" 
+                <Image path="/general/noAvatar.png" alt="User Avatar" className="avatar" />
+                <Image 
+                    path="/general/arrow.svg" 
                     alt="Arrow Icon" 
                     className={`arrow ${open ? 'rotate' : ''}`} 
                 />
