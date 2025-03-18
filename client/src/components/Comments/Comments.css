@@ -14,7 +14,7 @@
     overflow-y: auto;
 }
 
-.comment  {
+.comment {
     display: flex;
     gap: 16px;
 }
@@ -76,4 +76,17 @@
     cursor: pointer;
     font-size: 20px;
     position: relative;
+}
+
+.emoji-picker {
+    position: absolute;
+    right: 0;
+    bottom: 50px;
+}
+
+@media (max-width:495px) {
+    .emoji-picker-container {
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
 }
