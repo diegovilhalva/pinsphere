@@ -1,0 +1,134 @@
+.create-top {
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 1px solid #e9e9e9;
+    padding: 16px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.create-top h1 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.create-top button {
+    background-color: #e50829;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    padding: 10px 20px;
+    border-radius: 32px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+
+.create-top button:hover {
+    background-color: #c1011e;
+}
+
+
+.create-bottom {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+}
+
+.upload {
+    background-color: #e9e9e9;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32px;
+    border: 2px dashed #808080;
+    width: 375px;
+    height: 574px;
+    padding: 16px;
+    position: relative;
+}
+
+.upload-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+
+.upload-info {
+    position: absolute;
+    bottom: 32px;
+    font-size: 10px;
+    text-align: center;
+    color: #808080;
+    padding: 0 8px;
+}
+
+.create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 584px;
+}
+
+
+.create-form-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+.create-form-item label {
+    font-size: 13px;
+    color: #808080;
+}
+
+
+.create-form-item input,select,textarea {
+    font-size: 15px;
+    border: 1px solid #808080;
+    padding: 16px;
+    border-radius: 16px;
+}
+
+
+.create-form-item textarea {
+    resize: none;
+}
+
+
+small {
+    color: #a6a6a6;
+    font-size: 13px;
+}
+
+
+
+@media (max-width:1104px){
+    .create-bottom {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 64px;
+    }
+}
+
+
+@media (max-width:768px){
+    .create-form {
+        width: 100%;
+    }
+}
+
+
+@media (max-width:495px) {
+    .upload{
+        width: 100%;
+    }
+}

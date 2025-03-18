@@ -14,7 +14,7 @@ const ProfilePage = () => {
       <div className="profile-interactions">
         <Image path="/general/share.svg" alt="Share" />
         <div className="profile-buttons">
-          <button>Mesage</button>
+          <button>Message</button>
           <button>Follow</button>
         </div>
         <Image path="/general/more.svg" alt="" />
