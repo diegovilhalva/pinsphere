@@ -5,78 +5,85 @@
 }
 
 
+.post-container {
+    width: 70%;
+    max-height: 740px;
+    display: flex;
+    border: 1px solid #e9e9e9;
+    border-radius: 32px;
+    overflow: hidden;
+}
+
+.back-icon {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.back-icon:hover {
+    transform: scale(1.1);
+}
+
+.post-img {
+    background-color: #c0a68c;
+}
+
+.post-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.post-details {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-user img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.post-user span {
+    font-size: 14px;
+}
+
+
+@media (max-width:751px) {
     .post-container {
-        width: 70%;
-        max-height: 820px;
-        display: flex;
-        border: 1px solid #e9e9e9;
-        border-radius: 32px;
-        overflow: hidden;
+        flex-direction: column;
+        max-height: unset;
+    }
+
+}
+
+@media (max-width:495px) {
+    .post-page {
+        gap: 0;
     }
 
     .back-icon {
-        cursor: pointer;
-        transition: transform 0.2s ease-in-out;
+        margin-inline-start: -6px;
     }
-    
-    .back-icon:hover {
-        transform: scale(1.1);
-    }
-    .post-img {
-        flex: 1;
-        background-color: #c0a68c;
-    }
+}
 
-    .post-img img {
+
+
+@media (max-width:1127px) {
+    .post-container {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        margin-right: 16px;
     }
-
-    .post-details {
-        flex: 1;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-        padding: 16px;
-        overflow: hidden;
-    }
-
-    .post-user {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .post-user img {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-    }
-
-    .post-user span {
-        font-size: 14px;
-    }
-
-
-    @media (max-width:751px) {
-        .post-container {
-            flex-direction: column;
-            margin-right: 16px;
-            width: 100%; /* Garante que a largura ocupe 100% na tela pequena */
-            margin-left: 16px; /* Ajusta o margin para garantir que não haja overflow */
-        }
     
-        .post-page {
-            gap: 16px; /* Reduz o gap em telas pequenas */
-        }
-    }
-
-
-    @media (max-width:1127px) {
-        .post-container {
-            width: 100%;
-           
-        }
-    }
+}

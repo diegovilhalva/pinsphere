@@ -8,3 +8,10 @@
     flex: 1;
     margin-right: 16px;
 }
+
+
+@media (max-width:450px) {
+    .content{
+        box-sizing: border-box;
+    }
+}
