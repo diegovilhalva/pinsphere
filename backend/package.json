@@ -12,7 +12,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.0.1",
+    "express-validator": "^7.2.1",
     "mongoose": "^8.12.1"
   }
 }
