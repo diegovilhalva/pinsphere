@@ -5,6 +5,22 @@
     grid-auto-rows: 10px;
 }
 
+.no-results {
+  text-align: center;
+  padding: 4rem 0;
+  color: #666;
+}
+
+.no-results h3 {
+  color: #e60023;
+  margin-bottom: 1rem;
+}
+
+.end-message {
+    text-align: center;
+    padding: 2rem 0;
+    color: #666;
+  }
 
 
 @media (max-width:1746px){
