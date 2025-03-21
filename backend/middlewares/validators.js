@@ -36,7 +36,7 @@ export const validateUser = [
 
 
 export const validateLogin = [
-  body('identifier') // Pode ser email ou username
+  body('identifier') 
     .trim()
     .notEmpty().withMessage('Email or username is required'),
   

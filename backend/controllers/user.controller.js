@@ -1,6 +1,7 @@
 
 import User from "../models/user.model.js"
 import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 
 export const getUser = async (req, res) => {
@@ -45,14 +46,21 @@ export const registerUser = async (req, res) => {
         const { displayName, username, email, password } = req.body
         const hashedPassword = await bcrypt.hash(password, 12)
         const user = await User.create({
-            displayName,
-            username: username.toLowerCase(),
-            email: email.toLowerCase(),
+            displayName: displayName.trim(),
+            username: username.toLowerCase().trim(),
+            email: email.toLowerCase().trim(),
             hashedPassword
         })
 
         await user.save()
 
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secrure: process.env.NODE_ENV === "production",
+            maxAge: 30 * 24 * 60 * 60 * 1000
+        })
         const userResponse = {
             _id: user._id,
             displayName: user.displayName,
@@ -71,7 +79,10 @@ export const registerUser = async (req, res) => {
             const field = Object.keys(error.keyPattern)[0];
             return res.status(400).json({
                 success: false,
-                error: `${field} is already registered`
+                errors: [{
+                    field,
+                    message: `${field} is already registered`
+                }]
             });
         }
         console.log(error)
@@ -88,17 +99,30 @@ export const loginUser = async (req, res) => {
     try {
         const { identifier, password } = req.body
 
+        if (!identifier || !password) {
+            return res.status(400).json({
+                success: false,
+                errors: [{
+                    field: !identifier ? 'identifier' : 'password',
+                    message: 'Required field'
+                }]
+            });
+        }
+
         const user = await User.findOne({
             $or: [
-                { email: identifier.toLowerCase() },
-                { username: identifier.toLowerCase() }
+                { email: identifier.toLowerCase().trim() },
+                { username: identifier.toLowerCase().trim() }
             ]
-        })
+        }).select('+hashedPassword')
 
         if (!user) {
             return res.status(401).json({
                 success: false,
-                error: 'Invalid credentials'
+                errors: [{
+                    field: 'general',
+                    message: 'Invalid credentials'
+                }]
             });
         }
 
@@ -106,10 +130,20 @@ export const loginUser = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({
                 success: false,
-                error: 'Invalid credentials'
+                errors: [{
+                    field: 'general',
+                    message: 'Invalid credentials'
+                }]
             });
         }
 
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
+
+        res.cookie("token", token, {
+            httpOnly: true,
+            secrure: process.env.NODE_ENV === "production",
+            maxAge: 30 * 24 * 60 * 60 * 1000
+        })
         const userResponse = {
             _id: user._id,
             displayName: user.displayName,
@@ -127,7 +161,15 @@ export const loginUser = async (req, res) => {
         console.error('Login Error:', error);
         res.status(500).json({
             success: false,
-            error: 'Login failed. Please try again.'
+            errors: [{
+                field: 'general',
+                message: 'Server error. Please try again.'
+            }]
         });
     }
+}
+
+
+export const logoutUser = async (req, res) => {
+
 }

@@ -24,13 +24,22 @@
 }
 
 .post-img {
-    background-color: #c0a68c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+    background-color: transparent;
+    overflow: hidden;
+    max-height: 740px;
+    
 }
 
 .post-img img {
+    max-width: 100%;
+    max-height: 100%;
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
+    object-fit: cover;
 }
 
 .post-details {
@@ -59,31 +68,50 @@
     font-size: 14px;
 }
 
-
-@media (max-width:751px) {
+@media (max-width: 991px) {
     .post-container {
         flex-direction: column;
         max-height: unset;
+        width: 90%; /* Ajusta para ocupar mais espaço em telas menores */
     }
 
+    .post-img {
+        flex: unset; /* Remove o flex para evitar esticamento excessivo */
+        max-height: 60vh; /* Limita a altura da imagem */
+    }
+
+    .post-img img {
+        width: 100%; /* Garante que a imagem não ultrapasse a largura */
+        height: auto; /* Mantém a proporção */
+        max-height: 100%; /* Evita que imagens muito altas saiam do layout */
+    }
+
+    .post-details {
+        width: 100%;
+        padding: 12px;
+    }
 }
 
-@media (max-width:495px) {
+
+
+
+@media (max-width: 495px) {
     .post-page {
         gap: 0;
     }
 
     .back-icon {
-        margin-inline-start: -6px;
+        margin-inline-start: -8px;
     }
-}
 
-
-
-@media (max-width:1127px) {
     .post-container {
         width: 100%;
-        margin-right: 16px;
+        border-radius: 16px; /* Menos borda em telas menores */
     }
+
+    .post-img {
+        max-height: 50vh; /* Ajusta para imagens grandes não ficarem gigantes */
+    }
+    
     
 }

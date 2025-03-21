@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: process.env.CLIENT_URL }))
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
 app.use("/users", userRouter);
 app.use("/pins", pinRouter);
 app.use("/comments", commentRouter);

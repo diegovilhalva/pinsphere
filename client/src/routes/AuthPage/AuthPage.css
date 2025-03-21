@@ -40,7 +40,8 @@
 .form-group label {
     font-size: 14px;
     font-weight: 500;
-    text-align: left; /* Agora alinhado à esquerda */
+    text-align: left;
+    /* Agora alinhado à esquerda */
 }
 
 .input-wrapper {
@@ -64,7 +65,7 @@
     border: none;
     cursor: pointer;
     font-size: 14px;
-    opacity: 0.7; 
+    opacity: 0.7;
 }
 
 .toggle-password:hover {
@@ -85,14 +86,26 @@
     background-color: #bf0623;
 }
 
-.auth-container p {
+.auth-container .toggler {
     font-size: 14px;
     cursor: pointer;
     color: #e50829;
     text-decoration: underline;
 }
 
+.field-error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 4px;
+    display: block;
+}
+
+.input-error {
+    border-color: #e74c3c !important;
+}
+
 .error {
-    color: #e50829;
-    font-size: 14px;
+    color: #e74c3c;
+    text-align: center;
+    margin-top: 1rem;
 }
