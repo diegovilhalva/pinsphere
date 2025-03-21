@@ -7,6 +7,7 @@ export const getPins = async (req, res) => {
         const cursor = parseInt(req.query.cursor) || 0;
         const search = req.query.search;
         const userId = req.query.userId
+        const boardId = req.query.boardId
         const query = {};
 
         if (userId) {
@@ -24,6 +25,10 @@ export const getPins = async (req, res) => {
                 { title: { $regex: searchRegex } },
                 { tags: { $in: [searchRegex] } }
             ];
+        }
+
+        if (boardId) {
+            query.board = boardId
         }
         
 

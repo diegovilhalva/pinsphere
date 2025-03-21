@@ -2,53 +2,36 @@ import "./Comments.css"
 import Image from "../Image/Image"
 import EmojiPicker from "emoji-picker-react"
 import { useState } from "react"
-const Comments = () => {
+import { useQuery } from "@tanstack/react-query"
+import apiRequest from "../../utils/api-request"
+import Comment from "./Comment"
+const Comments = ({ id }) => {
 
   const [open, setOpen] = useState(false)
+  const { data, isPending, error } = useQuery({
+    queryKey: ["comments", id],
+    queryFn: () => apiRequest.get(`/comments/${id}`).then((res) => res.data),
+  })
+
+
+  if (isPending) return "Loading..."
+  if (error) return "An error has occurred"
+  if (!data) return "User not found"
+  const comments = data.data
+  console.log(comments)
   return (
     <div className="comments">
       <div className="comment-list">
-        <span className="comment-number">+5 Comments</span>
-        <div className="comment">
-          <Image path="/general/noAvatar.png" alt="profile picture" />
-          <div className="comment-content">
-            <span className="comment-username">John Doe</span>
-            <p className="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div className="comment-time">1h</div>
-          </div>
-        </div>
-        <div className="comment">
-          <Image path="/general/noAvatar.png" alt="profile picture" />
-          <div className="comment-content">
-            <span className="comment-username">John Doe</span>
-            <p className="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div className="comment-time">1h</div>
-          </div>
-        </div>
-        <div className="comment">
-          <Image path="/general/noAvatar.png" alt="profile picture" />
-          <div className="comment-content">
-            <span className="comment-username">John Doe</span>
-            <p className="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div className="comment-time">1h</div>
-          </div>
-        </div>
-        <div className="comment">
-          <Image path="/general/noAvatar.png" alt="profile picture" />
-          <div className="comment-content">
-            <span className="comment-username">John Doe</span>
-            <p className="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div className="comment-time">1h</div>
-          </div>
-        </div>
-        <div className="comment">
-          <Image path="/general/noAvatar.png" alt="profile picture" />
-          <div className="comment-content">
-            <span className="comment-username">John Doe</span>
-            <p className="comment-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            <div className="comment-time">1h</div>
-          </div>
-        </div>
+        <span className="comment-number">
+          {comments.length === 0
+            ? "No comments"
+            : `${comments.length} comment${comments.length !== 1 ? 's' : ''}`
+          }
+        </span>
+        {comments.map((comment) => (
+          <Comment comment={comment} key={comment._id} />
+        ))}
+
       </div>
       <form className="comment-form">
         <input type="text" placeholder="Add a  comment" />
@@ -56,7 +39,7 @@ const Comments = () => {
           <div onClick={() => setOpen((prev) => !prev)}>😊</div>
           {open && (
             <div className="emoji-picker">
-              <EmojiPicker className="emoji-picker-container"  />
+              <EmojiPicker className="emoji-picker-container" />
             </div>
           )}
         </div>

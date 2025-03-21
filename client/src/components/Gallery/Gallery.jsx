@@ -1,17 +1,18 @@
 import GalleryItem from "../GalleryItem/GalleryItem";
 import "./Gallery.css";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../Spinner/Spinner";
+import apiRequest from "../../utils/api-request";
 
-const Gallery = ({ search, userId }) => {
+const Gallery = ({ search, userId, boardId }) => {
   const fetchPins = async ({ pageParam = 0 }) => {
-    const res = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}/pins`, {
+    const res = await apiRequest.get(`${import.meta.env.VITE_API_ENDPOINT}/pins`, {
       params: {
         cursor: pageParam,
         search: search || undefined,
-        userId: userId
+        userId: userId || undefined,
+        boardId: boardId || undefined
       }
     });
     return res.data;
@@ -24,7 +25,7 @@ const Gallery = ({ search, userId }) => {
     status,
     error
   } = useInfiniteQuery({
-    queryKey: ['pins', search, userId],
+    queryKey: ['pins', search, userId, boardId],
     queryFn: fetchPins,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,

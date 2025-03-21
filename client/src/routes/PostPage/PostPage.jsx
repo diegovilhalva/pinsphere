@@ -40,7 +40,7 @@ const PostPage = () => {
             <Image src={pin.user.img} alt="profile picture" />
             <span className="">{pin.user.displayName}</span>
           </Link>
-          <Comments />
+          <Comments id={pin._id} />
         </div>
       </div>
     </div>

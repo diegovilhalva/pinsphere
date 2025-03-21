@@ -18,7 +18,7 @@ const ProfilePage = () => {
   if (error) return "An error has occurred"
   if (!data) return "User not found"
   const profile = data.data
-  console.log(profile)
+
   return (
     <div className="profile-page">
       <Image src={profile.img || "/general/noAvatar.png"} className="profile-img" alt={profile.displayName} />
@@ -41,7 +41,7 @@ const ProfilePage = () => {
           Saved
         </span>
       </div>
-      {type === "created" ? <Gallery userId={profile._id} /> : <Boards />}
+      {type === "created" ? <Gallery userId={profile._id} /> : <Boards userId={profile._id} />}
     </div>
   )
 }
