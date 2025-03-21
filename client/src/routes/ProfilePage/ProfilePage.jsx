@@ -1,15 +1,29 @@
 import "./ProfilePage.css"
 import Image from "../../components/Image/Image"
 import { useState } from "react"
-import Collections from "../../components/Collections/Collections"
+import Boards from "../../components/Boards/Boards"
 import Gallery from "../../components/Gallery/Gallery"
+import { useQuery } from "@tanstack/react-query"
+import apiRequest from "../../utils/api-request"
+import { useParams } from "react-router"
 const ProfilePage = () => {
   const [type, setType] = useState("saved")
+  const { username } = useParams()
+  const { data, isPending, error } = useQuery({
+    queryKey: ["profile", username],
+    queryFn: () => apiRequest.get(`/users/${username}`).then((res) => res.data),
+  })
+
+  if (isPending) return "Loading..."
+  if (error) return "An error has occurred"
+  if (!data) return "User not found"
+  const profile = data.data
+  console.log(profile)
   return (
     <div className="profile-page">
-      <Image path="/general/noAvatar.png" className="profile-img" alt='Profile picture' />
-      <h1 className="profile-name">John Doe</h1>
-      <span className="profile-username">@jhondoe</span>
+      <Image src={profile.img || "/general/noAvatar.png"} className="profile-img" alt={profile.displayName} />
+      <h1 className="profile-name">{profile.displayName}</h1>
+      <span className="profile-username">@{profile.username}</span>
       <div className="follow-counts"> 10 Followers - 20 Following</div>
       <div className="profile-interactions">
         <Image path="/general/share.svg" alt="Share" />
@@ -20,10 +34,14 @@ const ProfilePage = () => {
         <Image path="/general/more.svg" alt="" />
       </div>
       <div className="profile-options">
-        <span className={type === "created" ? "active " : ""} onClick={() => setType("created")}>Created</span>
-        <span className={type === "saved" ? "active " : ""} onClick={() => setType("saved")}>Saved</span>
+        <span className={type === "created" ? "active " : ""} onClick={() => setType("created")}>
+          Created
+        </span>
+        <span className={type === "saved" ? "active " : ""} onClick={() => setType("saved")}>
+          Saved
+        </span>
       </div>
-      {type === "created" ? <Gallery/> : <Collections/>}
+      {type === "created" ? <Gallery userId={profile._id} /> : <Boards />}
     </div>
   )
 }

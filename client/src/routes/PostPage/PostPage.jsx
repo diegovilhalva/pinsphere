@@ -19,7 +19,7 @@ const PostPage = () => {
   if (error) return "An error has occurred"
   if(!data) return "Pin not found"
   const pin = data.data
-  console.log(pin)
+  
   return (
     <div className="post-page">
       <svg
@@ -36,7 +36,7 @@ const PostPage = () => {
         </div>
         <div className="post-details">
           <PostInteractions />
-          <Link to={pin.user.username} className="post-user">
+          <Link to={`/${pin.user.username}`} className="post-user">
             <Image src={pin.user.img} alt="profile picture" />
             <span className="">{pin.user.displayName}</span>
           </Link>

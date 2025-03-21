@@ -1,7 +1,7 @@
 import Image from "../Image/Image"
-import "./Collections.css"
+import "./Boards.css"
 
-const Collections = () => {
+const Boards = () => {
   return (
     <div className="collections">
         <div className="collection">
@@ -30,4 +30,4 @@ const Collections = () => {
   )
 }
 
-export default Collections
+export default Boards

@@ -5,12 +5,13 @@ import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "../Spinner/Spinner";
 
-const Gallery = ({ search }) => {
+const Gallery = ({ search, userId }) => {
   const fetchPins = async ({ pageParam = 0 }) => {
     const res = await axios.get(`${import.meta.env.VITE_API_ENDPOINT}/pins`, {
       params: {
         cursor: pageParam,
-        search: search || undefined
+        search: search || undefined,
+        userId: userId
       }
     });
     return res.data;
@@ -23,7 +24,7 @@ const Gallery = ({ search }) => {
     status,
     error
   } = useInfiniteQuery({
-    queryKey: ['pins', search],
+    queryKey: ['pins', search, userId],
     queryFn: fetchPins,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,

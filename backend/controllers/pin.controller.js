@@ -1,12 +1,23 @@
 import Pin from "../models/pin.model.js";
+import mongoose from "mongoose"
 
 export const getPins = async (req, res) => {
     try {
         const limit = 21;
         const cursor = parseInt(req.query.cursor) || 0;
         const search = req.query.search;
-
+        const userId = req.query.userId
         const query = {};
+
+        if (userId) {
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return res.status(400).json({
+                    success: false,
+                    error: 'Invalid user ID format'
+                });
+            }
+            query.user = userId;
+        }
         if (search) {
             const searchRegex = new RegExp(search, 'i');
             query.$or = [
@@ -14,6 +25,7 @@ export const getPins = async (req, res) => {
                 { tags: { $in: [searchRegex] } }
             ];
         }
+        
 
         const pins = await Pin.find(query)
             .sort({ createdAt: -1 })
