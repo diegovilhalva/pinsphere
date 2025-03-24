@@ -19,6 +19,8 @@
     gap: 16px;
 }
 
+
+
 .back-icon {
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
@@ -33,6 +35,40 @@
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    color: #ff4444;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    transition: opacity 0.2s;
+    display: none;
+}
+
+.comment-content:hover .delete-button {
+    display: block;
+}
+
+
+.delete-button:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+.delete-button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+    text-decoration: none;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .comment-content {
@@ -79,14 +115,21 @@
 }
 
 .emoji-picker {
-    position: absolute;
+    position: fixed;
     right: 0;
-    bottom: 50px;
+    left: 55%;
+    bottom: 100px;
+    max-width: 350px;
+    max-height: 500px;
+    overflow: hidden;
+    z-index: 1000;/
 }
 
-@media (max-width:495px) {
-    .emoji-picker-container {
-        width: 100% !important;
-        margin: 0 auto !important;
+
+@media (max-width: 495px) {
+    .emoji-picker {
+        left: 0;
+        right: 20px;
     }
+
 }

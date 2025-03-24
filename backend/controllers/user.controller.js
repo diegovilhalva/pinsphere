@@ -137,7 +137,7 @@ export const loginUser = async (req, res) => {
             });
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30d' })
 
         res.cookie("token", token, {
             httpOnly: true,
@@ -173,5 +173,5 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
     res.clearCookie("token")
 
-    res.status(200).json({success:true,message:"Logout successfully"})
+    res.status(200).json({ success: true, message: "Logout successfully" })
 }

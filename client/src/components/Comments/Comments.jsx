@@ -27,11 +27,11 @@ const Comments = ({ id }) => {
           }
         </span>
         {comments.map((comment) => (
-          <Comment comment={comment} key={comment._id} />
+          <Comment comment={comment} key={comment._id} postId={id} />
         ))}
 
       </div>
-     <CommentsForm />
+     <CommentsForm id={id} />
     </div>
   )
 }
