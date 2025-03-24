@@ -33,3 +33,8 @@
     color: #808080;
     font-size: small;
 }
+
+.zero-results {
+    text-align: center;
+    color: #808080;
+}

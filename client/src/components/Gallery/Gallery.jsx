@@ -38,7 +38,7 @@ const Gallery = ({ search, userId, boardId }) => {
   const noResults = data?.pages[0]?.data?.length === 0 && !hasNextPage;
   return (
     <>
-      {noResults ? (
+      {noResults  ? (
         <div className="no-results">
           <h3>No pin founded for "{search}"</h3>
           <p>Try another search term</p>

@@ -1,5 +1,6 @@
 
 import User from "../models/user.model.js"
+import Follow from "../models/follow.model.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
@@ -9,26 +10,62 @@ export const getUser = async (req, res) => {
         const { username } = req.params
 
         const user = await User.findOne({ username }).select('-hashedPassword -__v')
-
+        const followerCount = await Follow.countDocuments({ following: user._id })
+        const followingCount = await Follow.countDocuments({ follower: user._id })
+        const token = req.cookies.token;
         if (!user) {
             return res.status(404).json({
                 success: false,
                 error: 'User not found'
             });
         }
+        if (!token) {
+            res.status(200).json({
+                success: true,
+                data: {
+                    _id: user._id,
+                    displayName: user.displayName,
+                    username: user.username,
+                    email: user.email,
+                    img: user.img,
+                    followerCount,
+                    followingCount,
+                    isFollowing: false,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt,
 
-        res.status(200).json({
-            success: true,
-            data: {
-                _id: user._id,
-                displayName: user.displayName,
-                username: user.username,
-                email: user.email,
-                img: user.img,
-                createdAt: user.createdAt,
-                updatedAt: user.updatedAt
-            }
-        });
+                }
+            });
+        } else {
+            jwt.verify(token, process.env.JWT_SECRET, async(err, payload) => {
+                if (!err) {
+                    const isExists = await Follow.exists({
+                        follower: payload.userId,
+                        following: user._id,
+                    });
+
+                    res.status(200).json({
+                        success: true,
+                        data: {
+                            _id: user._id,
+                            displayName: user.displayName,
+                            username: user.username,
+                            email: user.email,
+                            img: user.img,
+                            followerCount,
+                            followingCount,
+                            isFollowing: isExists ? true : false,
+                            createdAt: user.createdAt,
+                            updatedAt: user.updatedAt,
+        
+                        }
+                    });
+
+                }
+            })
+        }
+
+
 
     } catch (error) {
         console.error('Get User Error:', error);
@@ -174,4 +211,46 @@ export const logoutUser = async (req, res) => {
     res.clearCookie("token")
 
     res.status(200).json({ success: true, message: "Logout successfully" })
+}
+
+
+export const followUser = async (req, res) => {
+    try {
+        const { username } = req.params
+        const user = await User.findOne({ username })
+        const userId = req.userId
+
+        const isFollowing = await Follow.exists({
+            follower: userId,
+            following: user._id
+        })
+
+        if (userId.toString() === user._id.toString()) {
+            return res.status(400).json({
+                success: false,
+                error: "You cannot follow yourself"
+            });
+        }
+
+        if (isFollowing) {
+            await Follow.deleteOne({
+                follower: userId,
+                following: user._id
+            })
+        } else {
+            await Follow.create({
+                follower: userId,
+                following: user._id
+            })
+        }
+        res.status(201).json({
+            success: true,
+            message: "Successful"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: "Failed to follow user"
+        })
+    }
 }

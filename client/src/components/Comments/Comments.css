@@ -133,3 +133,9 @@
     }
 
 }
+
+@media (hover: none) {
+    .delete-button {
+     display: block;
+    }
+  }

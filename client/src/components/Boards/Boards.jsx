@@ -17,21 +17,30 @@ const Boards = ({ userId }) => {
     const boards = data.data
 
     return (
-        <div className="collections">
-            {boards?.map((board) => (
-                <Link to={`/search?boardId=${board._id}`} className="collection" key={board._id}>
-                    <Image src={board.firstPin.media} alt={board.title} />
-                    <div className="collection-info">
-                        <h1>{board.title}</h1>
-                        <span>{board.pinCount !== 1 ? `${board.pinCount} pins` : `${board.pinCount} pin`} - {format(board.createdAt)}
+        <>
+            {
+                boards.length > 0 ? (
+                    <div className="collections">
+                        {boards?.map((board) => (
+                            <Link to={`/search?boardId=${board._id}`} className="collection" key={board._id}>
+                                <Image src={board.firstPin.media} alt={board.title} />
+                                <div className="collection-info">
+                                    <h1>{board.title}</h1>
+                                    <span>{board.pinCount !== 1 ? `${board.pinCount} pins` : `${board.pinCount} pin`} - {format(board.createdAt)}
 
-                        </span>
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+
+
                     </div>
-                </Link>
-            ))}
-
-
-        </div>
+                ) : (
+                    <>
+                        <p className="zero-results">The user has no collections</p>
+                    </>
+                )}
+        </>
     )
 }
 
