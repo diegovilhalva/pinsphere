@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import "./UserButton.css";
 import Image from "../Image/Image";
+import apiRequest from "../../utils/api-request";
+import { Link, useNavigate } from "react-router";
+import useAuthStore from "../../utils/authStore";
 
 const UserButton = () => {
-    const currentUser = true;
+    const navigate = useNavigate()
+    const {currentUser,removeCurrentUser} = useAuthStore()
     const [open, setOpen] = useState(false);
     const ref = useRef();
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -23,13 +26,23 @@ const UserButton = () => {
         setOpen(!open);
     };
 
+    const handleLogout = async () => {
+      try {
+        await apiRequest.post("/users/auth/logout",{})
+        removeCurrentUser()
+        navigate("/auth")
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     return currentUser ? (
         <div className="user-button-container" ref={ref}>
             <div 
                 className={`user-button ${open ? 'active' : ''}`} 
                 onClick={handleToggle}
             >
-                <Image path="/general/noAvatar.png" alt="User Avatar" className="avatar" />
+                <Image src={currentUser.img || "/general/noAvatar.png"} alt="User Avatar" className="avatar" />
                 <Image 
                     path="/general/arrow.svg" 
                     alt="Arrow Icon" 
@@ -41,14 +54,14 @@ const UserButton = () => {
                 <div className="user-options">
                     <div className="user-option" onClick={() => console.log('Profile')}>Profile</div>
                     <div className="user-option" onClick={() => console.log('Settings')}>Settings</div>
-                    <div className="user-option" onClick={() => console.log('Logout')}>Logout</div>
+                    <div className="user-option" onClick={() => handleLogout()}>Logout</div>
                 </div>
             )}
         </div>
     ) : (
-        <a href="/" className="login-link">
+        <Link to="/auth" className="login-link">
             Login or Sign Up
-        </a>
+        </Link>
     );
 };
 

@@ -3,6 +3,7 @@ import Image from "../../components/Image/Image"
 import { useState } from "react"
 import apiRequest from "../../utils/api-request"
 import { useNavigate } from "react-router"
+import useAuthStore from "../../utils/authStore"
 const AuthPage = () => {
   const navigate = useNavigate()
   const [isRegister, setIsRegister] = useState(false)
@@ -14,10 +15,12 @@ const AuthPage = () => {
   })
   const [errors, setErrors] = useState({})
   const [showPassword, setShowPassword] = useState(false)
-
+  const {setCurrentUser} = useAuthStore()
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -33,6 +36,7 @@ const AuthPage = () => {
 
       if (response.data.success) {
         navigate("/")
+        setCurrentUser(response.data.data)
       } else {
         setErrors(response.data.error || "Something went wrong");
         console.log(response)
