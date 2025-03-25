@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-x       gap: 16px;
+    gap: 16px;
 }
 
 .profile-img {
@@ -49,6 +49,11 @@ x       gap: 16px;
 .profile-buttons button:last-child {
     background-color:  #e50829;
     color: #fff;
+}
+
+.profile-buttons button:last-child:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .profile-buttons button:last-child:hover{
