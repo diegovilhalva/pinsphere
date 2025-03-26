@@ -23,7 +23,11 @@ const Boards = ({ userId }) => {
                     <div className="collections">
                         {boards?.map((board) => (
                             <Link to={`/search?boardId=${board._id}`} className="collection" key={board._id}>
-                                <Image src={board.firstPin.media} alt={board.title} />
+                                <Image
+                                    path={board.firstPin.media.startsWith("https") ? undefined : board.firstPin.media}
+                                    src={board.firstPin.media.startsWith("https") ? board.firstPin.media : undefined}
+                                    alt={board.title}
+                                />
                                 <div className="collection-info">
                                     <h1>{board.title}</h1>
                                     <span>{board.pinCount !== 1 ? `${board.pinCount} pins` : `${board.pinCount} pin`} - {format(board.createdAt)}

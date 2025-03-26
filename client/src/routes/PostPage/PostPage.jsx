@@ -19,7 +19,7 @@ const PostPage = () => {
   if (error) return "An error has occurred"
   if(!data) return "Pin not found"
   const pin = data.data
-  
+  console.log(pin)
   return (
     <div className="post-page">
       <svg
@@ -32,12 +32,13 @@ const PostPage = () => {
       </svg>
       <div className="post-container">
         <div className="post-img">
-          <Image src={pin.media || "gerebal/noAvatar.png"} alt={pin.description} width={736} />
+          <Image path={pin.media.startsWith("https") ? undefined : pin.media} 
+          src={pin.media.startsWith("https") ? pin.media: undefined} alt={pin.description} width={736} />
         </div>
         <div className="post-details">
           <PostInteractions />
           <Link to={`/${pin.user.username}`} className="post-user">
-            <Image src={pin.user.img} alt="profile picture" />
+            <Image src={pin.user.img || "/general/noAvatar.png"} alt="profile picture" />
             <span className="">{pin.user.displayName}</span>
           </Link>
           <Comments id={pin._id} />

@@ -115,7 +115,9 @@
 }
 
 
-.create-form-item input,select,textarea {
+.create-form-item input,
+select,
+textarea {
     font-size: 15px;
     border: 1px solid #808080;
     padding: 16px;
@@ -134,8 +136,97 @@ small {
 }
 
 
+.new-board {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
+}
 
-@media (max-width:1104px){
+.new-board-container {
+    flex: 1;
+    display: flex;
+}
+
+.new-board-item {
+    padding: 8px;
+    border-radius: 12px;
+    background-color: #e9e9e9;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.create-board-buttom {
+    background-color: #e50829;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 13px;
+    width: max-content;
+    align-self: flex-end;
+}
+
+.board-form {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.board-form-container {
+    background-color: white;
+    padding: 32px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.board-form-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+}
+
+.board-form-container form {
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.board-form-container h1 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #a6a6a6;
+}
+
+.board-form-container input {
+    border: 2px solid #e9e9e9;
+    border-radius: 16px;
+    padding: 10px 14px;
+    font-size: 15px;
+}
+
+.board-form-container button {
+    background-color: #e50829;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+@media (max-width:1104px) {
     .create-bottom {
         flex-direction: column;
         align-items: center;
@@ -144,7 +235,7 @@ small {
 }
 
 
-@media (max-width:768px){
+@media (max-width:768px) {
     .create-form {
         width: 100%;
     }
@@ -152,7 +243,7 @@ small {
 
 
 @media (max-width:495px) {
-    .upload{
+    .upload {
         width: 100%;
     }
 }
