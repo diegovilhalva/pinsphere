@@ -10,6 +10,7 @@ const UserButton = () => {
     const {currentUser,removeCurrentUser} = useAuthStore()
     const [open, setOpen] = useState(false);
     const ref = useRef();
+    
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -52,7 +53,7 @@ const UserButton = () => {
             
             {open && (
                 <div className="user-options">
-                    <div className="user-option" onClick={() => console.log('Profile')}>Profile</div>
+                    <div className="user-option" onClick={() => navigate(`/${currentUser.username}`)}>Profile</div>
                     <div className="user-option" onClick={() => console.log('Settings')}>Settings</div>
                     <div className="user-option" onClick={() => handleLogout()}>Logout</div>
                 </div>
@@ -60,7 +61,7 @@ const UserButton = () => {
         </div>
     ) : (
         <Link to="/auth" className="login-link">
-            Login or Sign Up
+            Login / Sign Up
         </Link>
     );
 };

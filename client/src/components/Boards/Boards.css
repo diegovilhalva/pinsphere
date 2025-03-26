@@ -1,7 +1,7 @@
 .collections {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns:  repeat(7, 1fr);
     gap: 16px;
 }
 
@@ -9,7 +9,6 @@
     margin-bottom: 32px;
     cursor: pointer;
 }
-
 
 .collection img {
     width: 100%;
@@ -22,7 +21,6 @@
     flex-direction: column;
     gap: 8px;
 }
-
 
 .collection-info h1 {
     font-weight: 500;
@@ -37,4 +35,17 @@
 .zero-results {
     text-align: center;
     color: #808080;
+}
+
+
+@media (max-width: 1024px) {
+    .collections {
+        grid-template-columns: repeat(5, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .collections {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
 }

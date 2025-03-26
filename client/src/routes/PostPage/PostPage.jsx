@@ -19,7 +19,7 @@ const PostPage = () => {
   if (error) return "An error has occurred"
   if(!data) return "Pin not found"
   const pin = data.data
-  console.log(pin)
+  
   return (
     <div className="post-page">
       <svg
