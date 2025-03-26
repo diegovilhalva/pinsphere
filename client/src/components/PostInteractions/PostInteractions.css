@@ -45,3 +45,41 @@
 
 
 
+/* PostInteractions.css */
+.like-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.like-icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.like-icon.liked {
+    filter: none; 
+    filter: brightness(0) saturate(100%) invert(27%) sepia(95%) saturate(2455%) hue-rotate(325deg) brightness(118%) contrast(96%);
+}
+
+
+@keyframes like-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.like-icon.liked {
+    animation: like-pulse 0.45s ease;
+}
+
+.interaction-icons span {
+    font-weight: 600;
+    color: #262626;
+    font-size: 14px;
+}

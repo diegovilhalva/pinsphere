@@ -10,4 +10,5 @@ router.post("/auth/register", validateUser, registerUser)
 router.post("/auth/login", validateLogin, loginUser)
 router.post("/auth/logout", verifyToken, logoutUser)
 router.post("/follow/:username", verifyToken, followUser)
+
 export default router

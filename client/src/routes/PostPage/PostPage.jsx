@@ -36,7 +36,7 @@ const PostPage = () => {
           src={pin.media.startsWith("https") ? pin.media: undefined} alt={pin.description} width={736} />
         </div>
         <div className="post-details">
-          <PostInteractions />
+          <PostInteractions postId={id} />
           <Link to={`/${pin.user.username}`} className="post-user">
             <Image src={pin.user.img || "/general/noAvatar.png"} alt="profile picture" />
             <span className="">{pin.user.displayName}</span>
