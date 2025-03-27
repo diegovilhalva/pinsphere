@@ -11,10 +11,10 @@ export const getPins = async (req, res) => {
         const cursor = parseInt(req.query.cursor) || 0;
         const search = req.query.search;
         const boardId = req.query.boardId;
-        const userId = req.userId; // ID do usuário autenticado vindo do middleware
+        const userId = req.userId; 
         const query = {};
 
-        // Construção da query
+        
         if (req.query.userId) {
             if (!mongoose.Types.ObjectId.isValid(req.query.userId)) {
                 return res.status(400).json({
@@ -37,14 +37,14 @@ export const getPins = async (req, res) => {
             query.board = boardId;
         }
 
-        // Busca os pins com paginação
+      
         const pins = await Pin.find(query)
             .sort({ createdAt: -1 })
             .skip(cursor * limit)
             .limit(limit + 1)
-            .lean(); // Convertendo para objetos simples
+            .lean(); 
 
-        // Verifica quais pins foram salvos pelo usuário
+      
         let savedPinIds = new Set();
         if (userId) {
             const saves = await Save.find({
@@ -55,7 +55,7 @@ export const getPins = async (req, res) => {
             savedPinIds = new Set(saves.map(s => s.pin.toString()));
         }
 
-        // Adiciona o status isSaved a cada pin
+        
         const pinsWithStatus = pins.map(pin => ({
             ...pin,
             isSaved: savedPinIds.has(pin._id.toString())
@@ -64,7 +64,7 @@ export const getPins = async (req, res) => {
         const hasNextPage = pinsWithStatus.length > limit;
         const results = hasNextPage ? pinsWithStatus.slice(0, -1) : pinsWithStatus;
 
-        // Simula delay apenas em desenvolvimento
+        
         if (process.env.NODE_ENV === 'development') {
             await new Promise(resolve => setTimeout(resolve, 3000));
         }

@@ -1,39 +1,45 @@
 import "./GalleryItem.css"
 import { Link } from 'react-router'
 import Image from "../Image/Image"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import apiRequest from "../../utils/api-request"
+
 
 const GalleryItem = ({ item }) => {
   const queryClient = useQueryClient()
   const optimizedHeight = (372 * item.height) / item.width
 
-  // Mutação para salvar/remover save
+  const { data: interactionData } = useQuery({
+    queryKey: ["interactionCheck", item._id],
+    queryFn: async () => {
+      const res = await apiRequest.get(`/pins/interaction-check/${item._id}`)
+      return res.data
+    },
+    initialData: { isSaved: false } 
+  })
+
   const { mutate: savePin } = useMutation({
     mutationFn: async () => {
+      console.log("triggered")
       await apiRequest.post(`/pins/interact/${item._id}`, { type: 'save' })
     },
     onMutate: async () => {
-      await queryClient.cancelQueries(['pins'])
-      
-      const previousPins = queryClient.getQueryData(['pins'])
-      
-      queryClient.setQueryData(['pins'], old => 
-        old.map(pin => 
-          pin._id === item._id 
-            ? { ...pin, isSaved: !pin.isSaved } 
-            : pin
-        )
-      )
-      
-      return { previousPins }
+      await queryClient.cancelQueries(["interactionCheck", item._id])
+
+      const previousData = queryClient.getQueryData(["interactionCheck", item._id])
+
+      queryClient.setQueryData(["interactionCheck", item._id], old => ({
+        ...old,
+        isSaved: !old.isSaved
+      }))
+
+      return { previousData }
     },
     onError: (err, variables, context) => {
-      queryClient.setQueryData(['pins'], context.previousPins)
+      queryClient.setQueryData(["interactionCheck", item._id], context.previousData)
     },
     onSettled: () => {
-      queryClient.invalidateQueries(['pins'])
-      queryClient.invalidateQueries(['interactionCheck', item._id])
+      queryClient.invalidateQueries(["interactionCheck", item._id])
     }
   })
 
@@ -53,13 +59,13 @@ const GalleryItem = ({ item }) => {
       <Link to={`/pin/${item._id}`} className="overlay"></Link>
       
       <button 
-        className={`save-button ${item.isSaved ? 'saved' : ''}`}
+        className={`save-button ${interactionData?.isSaved ? 'saved' : ''}`}
         onClick={(e) => {
           e.preventDefault()
           savePin()
         }}
       >
-        {item.isSaved ? "Saved" : "Save"}
+        {interactionData?.isSaved ? "Saved" : "Save"}
       </button>
       
       <div className="overlay-icons">

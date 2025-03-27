@@ -15,7 +15,7 @@ const PostInteractions = ({ postId }) => {
         }
     })
 
-    // Mutação otimista
+    
     const mutation = useMutation({
         mutationFn: (type) => apiRequest.post(`/pins/interact/${postId}`, { type }),
         onMutate: async (type) => {
@@ -40,7 +40,7 @@ const PostInteractions = ({ postId }) => {
             queryClient.invalidateQueries(["interactionCheck", postId])
         }
     })
-
+    console.log(data)
     return (
         <div className="post-interactions">
             <div className="interaction-icons">
@@ -60,7 +60,6 @@ const PostInteractions = ({ postId }) => {
                 <Image path="/general/more.svg" alt="More" />
             </div>
             <button
-                className={`save-button ${data?.isSaved ? 'saved' : ''}`}
                 onClick={() => mutation.mutate('save')}
             >
                 {data?.isSaved ? "Saved" : "Save"}
