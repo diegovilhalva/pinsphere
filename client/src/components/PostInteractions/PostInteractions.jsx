@@ -6,7 +6,7 @@ import apiRequest from "../../utils/api-request"
 const PostInteractions = ({ postId }) => {
     const queryClient = useQueryClient()
 
-    // Consulta interações
+  
     const { data } = useQuery({
         queryKey: ["interactionCheck", postId],
         queryFn: async () => {

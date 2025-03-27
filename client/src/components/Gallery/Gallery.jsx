@@ -36,9 +36,19 @@ const Gallery = ({ search, userId, boardId }) => {
   if (status === "pending") return <div className="loading">Loading...</div>;
   if (status === "error") return <div>Error: {error.message}</div>;
   const noResults = data?.pages[0]?.data?.length === 0 && !hasNextPage;
+
+  if (allPins.length === 0 && userId) {
+    return (
+      <p className="zero-results-user-pins">The user has no pins</p>
+
+    )
+  }
+
+
+
   return (
     <>
-      {noResults  ? (
+      {noResults ? (
         <div className="no-results">
           <h3>No pin founded for "{search}"</h3>
           <p>Try another search term</p>

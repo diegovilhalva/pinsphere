@@ -20,7 +20,6 @@ const GalleryItem = ({ item }) => {
 
   const { mutate: savePin } = useMutation({
     mutationFn: async () => {
-      console.log("triggered")
       await apiRequest.post(`/pins/interact/${item._id}`, { type: 'save' })
     },
     onMutate: async () => {

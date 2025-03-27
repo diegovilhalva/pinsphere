@@ -20,7 +20,11 @@
     text-align: center;
     padding: 2rem 0;
     color: #666;
-  }
+}
+.zero-results-user-pins {
+    text-align: center;
+    color: #808080;
+}
 
 
 @media (max-width:1746px){
