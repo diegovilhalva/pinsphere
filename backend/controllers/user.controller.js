@@ -97,7 +97,7 @@ export const registerUser = async (req, res) => {
 
         res.cookie("token", token, {
             httpOnly: true,
-            secrure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production",
             maxAge: 30 * 24 * 60 * 60 * 1000
         })
         const userResponse = {
