@@ -16,7 +16,16 @@ app.use(express.json());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }))
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
-app.use(fileUpload())
+app.use(fileUpload({
+  useTempFiles: false,
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  },
+  abortOnLimit: true,
+  responseOnLimit: 'File size exceeds 5MB',
+  safeFileNames: true,
+  preserveExtension: true
+}));
 app.use("/users", userRouter);
 app.use("/pins", pinRouter);
 app.use("/comments", commentRouter);

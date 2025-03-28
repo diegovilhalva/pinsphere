@@ -3,6 +3,8 @@ import User from "../models/user.model.js"
 import Follow from "../models/follow.model.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import sharp from "sharp"
+import { uploadImage, deleteImage } from '../utils/imageKit.js'
 
 
 export const getUser = async (req, res) => {
@@ -37,7 +39,7 @@ export const getUser = async (req, res) => {
                 }
             });
         } else {
-            jwt.verify(token, process.env.JWT_SECRET, async(err, payload) => {
+            jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
                 if (!err) {
                     const isExists = await Follow.exists({
                         follower: payload.userId,
@@ -57,7 +59,7 @@ export const getUser = async (req, res) => {
                             isFollowing: isExists ? true : false,
                             createdAt: user.createdAt,
                             updatedAt: user.updatedAt,
-        
+
                         }
                     });
 
@@ -254,3 +256,123 @@ export const followUser = async (req, res) => {
         })
     }
 }
+
+
+
+
+export const updateProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
+        const { displayName, username, email } = req.body;
+
+        
+        if (!displayName?.trim() || !username?.trim() || !email?.trim()) {
+            return res.status(400).json({
+                success: false,
+                error: 'All fields are required'
+            });
+        }
+
+       
+        if (!/^[a-z0-9_]+$/.test(username)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Username can only contain lowercase letters, numbers and underscores'
+            });
+        }
+
+        const existingUser = await User.findOne({
+            $or: [
+                { username, _id: { $ne: user._id } },
+                { email, _id: { $ne: user._id } }
+            ]
+        });
+
+        if (existingUser) {
+            const field = existingUser.username === username ? 'username' : 'email';
+            return res.status(400).json({
+                success: false,
+                error: `${field} is already in use`
+            });
+        }
+
+       
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            {
+                displayName: displayName.trim(),
+                username: username.toLowerCase().trim(),
+                email: email.toLowerCase().trim()
+            },
+            { new: true, runValidators: true }
+        ).select('-hashedPassword');
+
+        res.json({
+            success: true,
+            data: updatedUser
+        });
+
+    } catch (error) {
+        console.error('Update error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update profile'
+        });
+    }
+};
+
+export const handleAvatarUpload = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId);
+        const avatar = req.files.avatar;
+
+       
+        const optimizedImage = await sharp(avatar.data)
+            .resize(500, 500, {
+                fit: 'cover',
+                position: 'center'
+            })
+            .jpeg({
+                quality: 80,
+                mozjpeg: true
+            })
+            .toBuffer();
+
+       
+        const uploadResponse = await uploadImage(
+            optimizedImage,
+            `avatar-${user._id}-${Date.now()}`,
+            '/avatars'
+        )
+
+      
+        if (user.imgFileId) {
+            await deleteImage(user.imgFileId);
+        }
+        
+    
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            {
+                img: uploadResponse.url,
+                imgFileId: uploadResponse.fileId
+            },
+            { new: true }
+        ).select('-hashedPassword');
+
+        res.json({
+            success: true,
+            data: {
+                img: updatedUser.img,
+                imgFileId: updatedUser.imgFileId
+            }
+        });
+
+    } catch (error) {
+        console.error('Avatar upload error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update avatar'
+        });
+    }
+};

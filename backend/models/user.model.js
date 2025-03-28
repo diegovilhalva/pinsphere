@@ -10,18 +10,23 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        trim:true,
-        lowercase:true
+        trim: true,
+        lowercase: true
     },
     email: {
         type: String,
         required: true,
         unique: true,
-        lowecase:true
+        lowecase: true
     },
     img: {
         type: String,
-        default:'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+        default: 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
+    },
+    imgFileId: String,
+    imgDimensions: {
+        width: Number,
+        height: Number
     },
     hashedPassword: {
         type: String,
@@ -30,4 +35,4 @@ const userSchema = new Schema({
 }, { timestamps: true })
 
 
-export default mongoose.model("User",userSchema)
+export default mongoose.model("User", userSchema)

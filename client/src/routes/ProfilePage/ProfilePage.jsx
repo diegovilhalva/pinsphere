@@ -7,7 +7,10 @@ import { useQuery } from "@tanstack/react-query"
 import apiRequest from "../../utils/api-request"
 import { useParams } from "react-router"
 import FollowButton from "./FollowButton"
+import useAuthStore from "../../utils/authStore"
 const ProfilePage = () => {
+  const { currentUser } = useAuthStore()
+  console.log(currentUser)
   const [type, setType] = useState("saved")
   const { username } = useParams()
   const { data, isPending, error } = useQuery({
@@ -20,6 +23,7 @@ const ProfilePage = () => {
   if (!data) return "User not found"
   const profile = data.data
 
+
   return (
     <div className="profile-page">
       <Image src={profile.img || "/general/noAvatar.png"} className="profile-img" alt={profile.displayName} />
@@ -29,8 +33,12 @@ const ProfilePage = () => {
       <div className="profile-interactions">
         <Image path="/general/share.svg" alt="Share" />
         <div className="profile-buttons">
-          <button>Message</button>
-          <FollowButton isFollowing={profile.isFollowing} username={profile.username} />
+         {currentUser.username !== username && (
+          <>
+             <button>Message</button>
+             <FollowButton isFollowing={profile.isFollowing} username={profile.username} />
+          </>
+         ) }
         </div>
         <Image path="/general/more.svg" alt="" />
       </div>

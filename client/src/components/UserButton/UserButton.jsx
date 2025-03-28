@@ -54,7 +54,7 @@ const UserButton = () => {
             {open && (
                 <div className="user-options">
                     <div className="user-option" onClick={() => navigate(`/${currentUser.username}`)}>Profile</div>
-                    <div className="user-option" onClick={() => console.log('Settings')}>Settings</div>
+                    <div className="user-option" onClick={() => navigate("/settings")}>Settings</div>
                     <div className="user-option" onClick={() => handleLogout()}>Logout</div>
                 </div>
             )}
