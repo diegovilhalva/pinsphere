@@ -33,7 +33,14 @@ app.use("/boards", boardRouter);
 
 
 
+
 const PORT = process.env.PORT || 4000;
+
+app.get("/",(req,res) => {
+  res.send("ok")
+})
+
+
 app.listen(PORT, async () => {
   await connectDB();
   console.log(`Server running on port ${PORT}`);
